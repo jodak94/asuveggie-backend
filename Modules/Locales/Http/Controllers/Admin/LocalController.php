@@ -31,9 +31,9 @@ class LocalController extends AdminBaseController
      */
     public function index()
     {
-        //$locals = $this->local->all();
+        $locals = $this->local->all();
 
-        return view('locales::admin.locals.index', compact(''));
+        return view('locales::admin.locals.index', compact('locals'));
     }
 
     /**

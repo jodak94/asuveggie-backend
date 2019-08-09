@@ -29,7 +29,8 @@
                         <table class="data-table table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>{{ trans('core::core.table.created at') }}</th>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
@@ -39,7 +40,12 @@
                             <tr>
                                 <td>
                                     <a href="{{ route('admin.locales.local.edit', [$local->id]) }}">
-                                        {{ $local->created_at }}
+                                        {{ $local->nombre }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.locales.local.edit', [$local->id]) }}">
+                                        {{ $local->telefono }}
                                     </a>
                                 </td>
                                 <td>
@@ -54,7 +60,8 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th>{{ trans('core::core.table.created at') }}</th>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </tfoot>
