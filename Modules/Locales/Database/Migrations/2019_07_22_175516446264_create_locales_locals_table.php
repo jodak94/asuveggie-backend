@@ -20,7 +20,7 @@ class CreateLocalesLocalsTable extends Migration
             $table->string('latitud');
             $table->string('longitud');
             $table->string('descripcion');
-            $table->string('direccion');
+            $table->string('direccion')->nullable();
             $table->string('telefono');
             $table->timestamps();
         });

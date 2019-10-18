@@ -8,7 +8,13 @@ class UpdateLocalRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+          'nombre'  => 'required',
+          'descripcion' => 'required',
+          'latitud' => 'required',
+          'longitud' => 'required',
+          'telefono'     => 'required',
+        ];
     }
 
     public function translationRules()
@@ -23,7 +29,10 @@ class UpdateLocalRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
+      return [
+        'required'    => 'El campo :attribute no puede quedar vacio.',
+        'unique' => 'El campo :attribute debe ser único. Ya existe ese valor.',
+      ];
     }
 
     public function translationMessages()

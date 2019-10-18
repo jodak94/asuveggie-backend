@@ -8,7 +8,13 @@ class CreateLocalRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+          'nombre'  => 'required',
+          'descripcion' => 'required',
+          'latitud' => 'required',
+          'longitud' => 'required',
+          'telefono'     => 'required',
+        ];
     }
 
     public function translationRules()

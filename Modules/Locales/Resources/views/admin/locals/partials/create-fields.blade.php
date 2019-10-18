@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-md-12">
           <label>Descripción</label>
-          <textarea id="descripcion" name="descripcion" placeholder="Descripción" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
+          <textarea id="descripcion" required name="descripcion" placeholder="Descripción" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
           {!! Form::normalInput('direccion', 'Dirección', $errors, null,  ['required' => 'true']) !!}
         </div>
         <div class="col-md-12">
-          {!! Form:: normalCheckbox('solo_delivery', 'Sólo Delivery', $errors) !!}
+          {!! Form::normalCheckbox('solo_delivery', 'Sólo Delivery', $errors) !!}
         </div>
       </div>
     </div>
