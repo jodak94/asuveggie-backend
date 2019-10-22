@@ -54,7 +54,7 @@ class LocalController extends AdminBaseController
      */
     public function store(CreateLocalRequest $request)
     {
-        if((!isset($request->latitud) || !isset($request->longitud)) && !$request->solo_delivery)
+        if((!isset($request->latitud) || !isset($request->longitud)))
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
         $this->local->create($request->all());

@@ -18,6 +18,8 @@
     @endforeach
     <link media="all" type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
     {!! Theme::script('vendor/jquery/jquery.min.js') !!}
+    {!! Theme::style('vendor/jquery-toast/jquery.toast.min.css') !!}
+    {!! Theme::script('vendor/jquery-toast/jquery.toast.min.js') !!}
     @include('partials.asgard-globals')
     @section('styles')
     @show

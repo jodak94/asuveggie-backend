@@ -9,5 +9,5 @@ class Local extends Model
 {
 
     protected $table = 'locales__locals';
-    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'solo_delivery'];
+    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono'];
 }
