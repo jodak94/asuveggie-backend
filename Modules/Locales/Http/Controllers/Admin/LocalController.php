@@ -9,7 +9,7 @@ use Modules\Locales\Http\Requests\CreateLocalRequest;
 use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
-
+use Auth;
 class LocalController extends AdminBaseController
 {
     /**
@@ -57,10 +57,11 @@ class LocalController extends AdminBaseController
         if((!isset($request->latitud) || !isset($request->longitud)))
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
+        $request['user_id'] = Auth::user()->id;
         $local = $this->local->create($request->all());
 
         $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
-        return redirect()->route('admin.locales.local.index')
+        return redirect()->route('dashboard.index')
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('locales::locals.title.locals')]));
     }
 

@@ -71,6 +71,10 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
         return $this->roles()->whereName($name)->count() >= 1;
     }
 
+    public function locales(){
+        return $this->hasMany('Modules\Locales\Entities\Local');
+    }
+
     /**
      * @inheritdoc
      */

@@ -24,6 +24,11 @@
     @section('styles')
     @show
     @stack('css-stack')
+    <style>
+      .box-primary{
+        border-top-color: #00a65a!important;
+      }
+    </style>
     @stack('translation-stack')
 
     <script>
