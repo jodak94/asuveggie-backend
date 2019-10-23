@@ -9,7 +9,14 @@
         <li class="active">{{ trans('locales::locals.title.locals') }}</li>
     </ol>
 @stop
-
+@push('css-stack')
+  <style>
+    .logo{
+      width: 50px;
+      height: auto;
+    }
+  </style>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -31,6 +38,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Teléfono</th>
+                                <th>Logo</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
@@ -49,6 +57,9 @@
                                     </a>
                                 </td>
                                 <td>
+                                  <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
                                         <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.locales.local.destroy', [$local->id]) }}"><i class="fa fa-trash"></i></button>
@@ -62,6 +73,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Teléfono</th>
+                                <th>Logo</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </tfoot>

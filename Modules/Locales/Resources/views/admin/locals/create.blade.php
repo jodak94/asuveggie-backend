@@ -9,11 +9,8 @@
         <li><a href="{{ route('admin.locales.local.index') }}">{{ trans('locales::locals.title.locals') }}</a></li>
         <li class="active">{{ trans('locales::locals.title.create local') }}</li>
     </ol>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-     integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-     crossorigin="">
      {!! Theme::style('vendor/croppie/croppie.css') !!}
-
+     {!! Theme::style('vendor/leaflet/leaflet.css') !!}
 @stop
 @push('css-stack')
   <style>

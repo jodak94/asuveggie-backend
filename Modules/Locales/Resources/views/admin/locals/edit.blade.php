@@ -9,13 +9,24 @@
         <li><a href="{{ route('admin.locales.local.index') }}">{{ trans('locales::locals.title.locals') }}</a></li>
         <li class="active">{{ trans('locales::locals.title.edit local') }}</li>
     </ol>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossorigin="">
+    {!! Theme::style('vendor/croppie/croppie.css') !!}
+    {!! Theme::style('vendor/leaflet/leaflet.css') !!}
 @stop
-
+@push('css-stack')
+  <style>
+    .logo{
+      margin: auto;
+      max-width: 350;
+      max-height: 350;
+    }
+    #logo-container{
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+@endpush
 @section('content')
-    {!! Form::open(['route' => ['admin.locales.local.update', $local->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.locales.local.update', $local->id], 'method' => 'put', 'id' => 'form']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
@@ -51,9 +62,8 @@
 @stop
 
 @push('js-stack')
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-            crossorigin=""></script>
+    {!! Theme::script('vendor/leaflet/leaflet.js') !!}
+    {!! Theme::script('vendor/croppie/croppie.min.js') !!}
     @include('locales::admin.locals.partials.script')
     <script type="text/javascript">
         $( document ).ready(function() {

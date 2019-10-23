@@ -57,8 +57,9 @@ class LocalController extends AdminBaseController
         if((!isset($request->latitud) || !isset($request->longitud)))
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
-        $this->local->create($request->all());
+        $local = $this->local->create($request->all());
 
+        $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
         return redirect()->route('admin.locales.local.index')
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('locales::locals.title.locals')]));
     }
@@ -69,7 +70,7 @@ class LocalController extends AdminBaseController
      * @param  Local $local
      * @return Response
      */
-    public function edit(Local $local)
+    public function edit(Local $local, Request $request)
     {
         return view('locales::admin.locals.edit', compact('local'));
     }
@@ -83,7 +84,11 @@ class LocalController extends AdminBaseController
      */
     public function update(Local $local, UpdateLocalRequest $request)
     {
-        $this->local->update($local, $request->all());
+        $local = $this->local->update($local, $request->all());
+
+        $local->getMedia('logo')->first()->delete();
+        $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+
 
         return redirect()->route('admin.locales.local.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('locales::locals.title.locals')]));
@@ -97,6 +102,7 @@ class LocalController extends AdminBaseController
      */
     public function destroy(Local $local)
     {
+        // dd($local);
         $this->local->destroy($local);
 
         return redirect()->route('admin.locales.local.index')
