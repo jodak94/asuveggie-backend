@@ -6,6 +6,7 @@ return [
         'create' => 'user::users.create user',
         'edit' => 'user::users.edit user',
         'destroy' => 'user::users.destroy user',
+        'profile' => 'user::users.profile user',
     ],
     'user.roles' => [
         'index' => 'user::roles.list resource',

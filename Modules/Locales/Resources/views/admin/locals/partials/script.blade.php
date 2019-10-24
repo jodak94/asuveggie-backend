@@ -37,10 +37,12 @@
 
         $("#form").on('submit', function(e){
             let ok = true;
-            if(logo == undefined){
-              mostrar_error("El logo es obligatorio")
-              ok = false;
-            }
+            @if(!isset($local))
+              if(logo == undefined){
+                mostrar_error("El logo es obligatorio")
+                ok = false;
+              }
+            @endif
             if($("#latitud").val() == '' || $("#latitud").val() == undefined || $("#longitud").val() == '' || $("#longitud").val() == undefined){
               mostrar_error("Debe seleccionar una ubicación")
               ok = false;
@@ -66,12 +68,16 @@
 
     @if(isset($local))
       $( document ).ready(function() {
-        logo = $('#logo').croppie({
-          viewport: { width: 200, height: 200, type: 'circle' },
-          boundary: { width: 300, height: 300 },
-          result: { circle: false, type: 'canvas' }
-        });
-        $("#logo-container").css('display', 'block');
+        $("#edit-logo-button").on('click', function(){
+          logo = $('#logo').croppie({
+            viewport: { width: 200, height: 200, type: 'circle' },
+            boundary: { width: 300, height: 300 },
+            result: { circle: false, type: 'canvas' }
+          });
+          $("#editar_logo").val(1);
+          $("#input-file-container").css('display', 'block');
+
+        })
       })
     @endif
     function readURL(input) {

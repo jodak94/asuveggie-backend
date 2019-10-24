@@ -12,7 +12,13 @@ class Local extends Model implements HasMedia
     use HasMediaTrait;
 
     protected $table = 'locales__locals';
-    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id'];
+    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado'];
 
 
+    public static $estados = [
+      'pendiente' => 'Pendiente',
+      'verificado' => 'Verificado',
+      'eliminado' => 'Eliminado',
+      'inactivo' => 'Inactivo'
+    ];
 }

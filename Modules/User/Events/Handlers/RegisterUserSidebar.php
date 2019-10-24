@@ -49,6 +49,9 @@ class RegisterUserSidebar extends AbstractAdminSidebar
                 $item->weight(0);
                 $item->icon('fa fa-user');
                 $item->route('admin.account.profile.edit');
+                $item->authorize(
+                    $this->auth->hasAccess('user.roles.profile')
+                );
             });
             $group->item(trans('user::users.api-keys'), function (Item $item) {
                 $item->weight(1);

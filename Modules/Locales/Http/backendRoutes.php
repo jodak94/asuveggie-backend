@@ -39,4 +39,12 @@ $router->group(['prefix' =>'/locales'], function (Router $router) {
     ]);
 // append
 
+    $router->get('locals//{local}/galeria', [
+        'as' => 'admin.locales.local.galeria',
+        'uses' => 'LocalController@galeria',
+    ]);
+    $router->post('locals/{local}/galeria', [
+        'as' => 'admin.locales.local.store_galeria',
+        'uses' => 'LocalController@store_galeria',
+    ]);
 });

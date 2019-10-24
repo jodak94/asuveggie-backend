@@ -15,6 +15,9 @@
       width: 50px;
       height: auto;
     }
+    .capitalize{
+      text-transform:capitalize
+    }
   </style>
 @endpush
 @section('content')
@@ -39,6 +42,7 @@
                                 <th>Nombre</th>
                                 <th>Teléfono</th>
                                 <th>Logo</th>
+                                <th>Estado</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
@@ -59,6 +63,9 @@
                                 <td>
                                   <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
                                 </td>
+                                <td class="capitalize">
+                                  {{ $local->estado }}
+                                </td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
@@ -74,6 +81,7 @@
                                 <th>Nombre</th>
                                 <th>Teléfono</th>
                                 <th>Logo</th>
+                                <th>Estado</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </tfoot>

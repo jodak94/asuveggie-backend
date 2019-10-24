@@ -66,15 +66,6 @@
     {!! Theme::script('vendor/leaflet/leaflet.js') !!}
     {!! Theme::script('vendor/croppie/croppie.min.js') !!}
     @include('locales::admin.locals.partials.script')
-    <script type="text/javascript">
-        $( document ).ready(function() {
-          $(document).keypressAction({
-              actions: [
-                  { key: 'b', route: "<?= route('admin.locales.local.index') ?>" }
-              ]
-          });
-        });
-    </script>
     <script>
         $( document ).ready(function() {
             $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({

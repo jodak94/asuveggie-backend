@@ -32,8 +32,8 @@ class LocalController extends AdminBaseController
     public function index()
     {
         $locals = $this->local->all();
-
-        return view('locales::admin.locals.index', compact('locals'));
+        $estados = Local::$estados;
+        return view('locales::admin.locals.index', compact('locals', 'estados'));
     }
 
     /**
@@ -58,6 +58,7 @@ class LocalController extends AdminBaseController
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
         $request['user_id'] = Auth::user()->id;
+        $request['estado'] = Local::$estados['pendiente'];
         $local = $this->local->create($request->all());
 
         $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
@@ -73,7 +74,12 @@ class LocalController extends AdminBaseController
      */
     public function edit(Local $local, Request $request)
     {
-        return view('locales::admin.locals.edit', compact('local'));
+        $user = Auth::user();
+        if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+          return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
+        $estados = Local::$estados;
+        return view('locales::admin.locals.edit', compact('local', 'estados'));
     }
 
     /**
@@ -85,13 +91,18 @@ class LocalController extends AdminBaseController
      */
     public function update(Local $local, UpdateLocalRequest $request)
     {
+        $user = Auth::user();
+        if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+          return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
         $local = $this->local->update($local, $request->all());
 
-        $local->getMedia('logo')->first()->delete();
-        $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+        if($request->editar_logo){
+          $local->getMedia('logo')->first()->delete();
+          $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+        }
 
-
-        return redirect()->route('admin.locales.local.index')
+        return redirect()->route('dashboard.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('locales::locals.title.locals')]));
     }
 
@@ -103,10 +114,31 @@ class LocalController extends AdminBaseController
      */
     public function destroy(Local $local)
     {
-        // dd($local);
-        $this->local->destroy($local);
+        $user = Auth::user();
+        if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+          return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
-        return redirect()->route('admin.locales.local.index')
+        if($user->hasRoleSlug('admin'))
+          $this->local->destroy($local);
+        else{
+          $local->estado = 'eliminado';
+          $local->save();
+        }
+        return redirect()->route('dashboard.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('locales::locals.title.locals')]));
+    }
+
+    public function galeria(Local $local){
+      $user = Auth::user();
+      if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+        return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
+      return view('locales::admin.locals.galeria', compact('local'));
+    }
+
+    public function store_galeria(Local $local){
+      $user = Auth::user();
+      if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+        return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
     }
 }

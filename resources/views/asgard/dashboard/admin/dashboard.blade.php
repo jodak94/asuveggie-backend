@@ -35,9 +35,15 @@
     border-radius: 2px;
     margin-bottom: 40px;
   }
+  .btn-crear-2{
+    background-color: #00a65a;
+  }
   .logo{
     width: 50px;
     height: auto;
+  }
+  .capitalize{
+    text-transform:capitalize
   }
   </style>
 @stop
@@ -46,18 +52,19 @@
     <div class="row">
         <div class="col-md-12">
             @if (setting('dashboard::welcome-enabled') === '1')
-                <div class="box box-primary">
-                    <div class="box-header">
-                      @if(count($user->locales))
-                        <h3 class="box-title">
-                            Mis locales
-                        </h3>
-                      @endif
-                    </div>
-                    <div class="box-body">
-
-                    </div>
-                    @if(count($user->locales))
+              <div class="box box-primary">
+                  <div class="box-header">
+                    @if(count($user->locales()->where('estado', '!=', 'eliminado')->get()))
+                      <h3 class="box-title">
+                          Mis locales
+                      </h3>
+                      <a href="{{route('admin.locales.local.create')}}">
+                        <button class="btn btn-primary btn-flat pull-right">Crear Nuevo Local</button>
+                      </a>
+                    @endif
+                  </div>
+                  <div class="box-body">
+                    @if(count($user->locales()->where('estado', '!=', 'eliminado')->get()))
                       <div class="table-responsive">
                           <table class="data-table table table-bordered table-hover">
                               <thead>
@@ -65,12 +72,13 @@
                                   <th>Nombre</th>
                                   <th>Teléfono</th>
                                   <th>Logo</th>
+                                  <th>Estado</th>
                                   <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                               </tr>
                               </thead>
                               <tbody>
                               <?php if (isset($user->locales)): ?>
-                              <?php foreach ($user->locales as $local): ?>
+                              <?php foreach ($user->locales()->where('estado', '!=', 'eliminado')->get() as $local): ?>
                               <tr>
                                   <td>
                                       <a href="{{ route('admin.locales.local.edit', [$local->id]) }}">
@@ -85,10 +93,14 @@
                                   <td>
                                     <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
                                   </td>
+                                  <td class="capitalize">
+                                    {{ $local->estado }}
+                                  </td>
                                   <td>
                                       <div class="btn-group">
-                                          <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                          <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.locales.local.destroy', [$local->id]) }}"><i class="fa fa-trash"></i></button>
+                                          <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat" title="Editar"><i class="fa fa-pencil"></i></a>
+                                          <a href="{{ route('admin.locales.local.galeria', [$local->id]) }}" class="btn btn-default btn-flat" title="Galería"><i class="fa fa-camera"></i></a>
+                                          <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" title="Eliminar" data-action-target="{{ route('admin.locales.local.destroy', [$local->id]) }}"><i class="fa fa-trash"></i></button>
                                       </div>
                                   </td>
                               </tr>
@@ -100,6 +112,7 @@
                                   <th>Nombre</th>
                                   <th>Teléfono</th>
                                   <th>Logo</th>
+                                  <th>Estado</th>
                                   <th>{{ trans('core::core.table.actions') }}</th>
                               </tr>
                               </tfoot>
@@ -115,6 +128,7 @@
                       </div>
                     @endif
                 </div>
+              </div>
             @endif
         </div>
     </div>

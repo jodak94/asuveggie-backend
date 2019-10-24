@@ -14,16 +14,30 @@
       <div class="col-md-12">
         {!! Form::normalInput('direccion', 'Dirección', $errors, $local) !!}
       </div>
+      @if(Auth::user()->hasRoleSlug('admin'))
+        <div class="col-md-12">
+          {!! Form:: normalSelect('estado', 'Estado', $errors, $estados, $local) !!}
+        </div>
+      @endif
     </div>
     <div class="col-md-6">
-      <div class="col-md-12">
+      <div class="col-md-3">
         <div class="form-group">
+          <label style="color:white">.</label><br>
+          <button type="button" class="btn btn-primary pull-right btn-flat" id="edit-logo-button">Editar Logo</button>
+          <input type="hidden" id="editar_logo" name="editar_logo" value="0"></input>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="form-group" id="input-file-container" style="display:none">
           {!! Form::label('image','Logo')!!}
           {!! Form::file('image',['class' => 'form-control','id' => 'img-input']) !!}
-          <div id="logo-container">
-            <img id="logo" src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo"/>
-            <input name="logo" style="display:none" id="logo-img">
-          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div id="logo-container">
+          <img id="logo" src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo"/>
+          <input name="logo" style="display:none" id="logo-img">
         </div>
       </div>
     </div>
