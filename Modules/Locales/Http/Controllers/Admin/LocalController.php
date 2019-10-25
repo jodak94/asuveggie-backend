@@ -10,6 +10,7 @@ use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Auth;
+use Log;
 class LocalController extends AdminBaseController
 {
     /**
@@ -136,9 +137,19 @@ class LocalController extends AdminBaseController
       return view('locales::admin.locals.galeria', compact('local'));
     }
 
-    public function store_galeria(Local $local){
+    public function store_galeria(Local $local, Request $request){
       $user = Auth::user();
       if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
         return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
+      if(count($local->getMedia('galeria')) > 6)
+        return response('error', 400);
+      $local->addMedia($request->file('file'))->toMediaCollection('galeria');
+
+      return response('ok', 200);
+    }
+
+    public function delete_image(Local $local, Request $request){
+
     }
 }

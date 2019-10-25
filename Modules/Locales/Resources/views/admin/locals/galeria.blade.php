@@ -6,7 +6,29 @@
     </h1>
     {!! Theme::style('vendor/dropzone/dropzone.min.css') !!}
 @stop
-
+@push('css-stack')
+  <style>
+    .dropzone{
+      border: 2px dashed #00a65a!important;
+      border-radius: 5px!important;
+    }
+    .custom-box{
+      background-color: #ecf0f5;
+      border: 2px solid #00a65a;
+      padding: 10px 10px 10px 0px;
+    }
+    .btn-upload{
+      margin: auto;
+      margin-top: 20px;
+      border-radius: 3px;
+      display: block;
+    }
+    .galeria-img-preview{
+      width: 90%;
+      margin: auto;
+    }
+  </style>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -22,8 +44,7 @@
                     @endforeach
 
                     <div class="box-footer">
-                        <button id="submit-button" class="btn btn-primary btn-flat">Aceptar</button>
-                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.locales.local.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+                        <a class="btn btn-primary btn-flat" href="{{ route('dashboard.index')}}"> Volver</a>
                     </div>
                 </div>
             </div> {{-- end nav-tabs-custom --}}
