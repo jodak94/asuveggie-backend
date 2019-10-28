@@ -4,13 +4,14 @@ namespace Modules\Locales\Entities;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class Local extends Model implements HasMedia
+class Local extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
-
+    // public $registerMediaConversionsUsingModelInstance = true;
     protected $table = 'locales__locals';
     protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado'];
 
@@ -21,4 +22,12 @@ class Local extends Model implements HasMedia
       'eliminado' => 'Eliminado',
       'inactivo' => 'Inactivo'
     ];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+              ->width(350)
+              ->height(248)
+              ->sharpen(10);
+    }
 }

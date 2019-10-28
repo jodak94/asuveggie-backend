@@ -39,12 +39,16 @@ $router->group(['prefix' =>'/locales'], function (Router $router) {
     ]);
 // append
 
-    $router->get('locals//{local}/galeria', [
+    $router->get('locals/{local}/galeria', [
         'as' => 'admin.locales.local.galeria',
         'uses' => 'LocalController@galeria',
     ]);
     $router->post('locals/{local}/galeria', [
         'as' => 'admin.locales.local.store_galeria',
         'uses' => 'LocalController@store_galeria',
+    ]);
+    $router->delete('locals/{local}/{file}/galeria', [
+        'as' => 'admin.locales.local.delete_file',
+        'uses' => 'LocalController@delete_file',
     ]);
 });

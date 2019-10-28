@@ -24,8 +24,31 @@
       display: block;
     }
     .galeria-img-preview{
-      width: 90%;
+      width: 100%;
       margin: auto;
+    }
+    .btn-delete{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      padding: 2px 3px;
+      display: none;
+    }
+    .btn-container{
+      opacity: 100%;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top:0;
+      left: 0;
+      padding: 0px 15px;
+    }
+    .hover-effect{
+      -webkit-filter: blur(3px);
+      filter: blur(3px);
+      -webkit-transition: .3s ease-in-out;
+       transition: .3s ease-in-out;
     }
   </style>
 @endpush
@@ -51,6 +74,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('core::partials.delete-modal')
 @stop
 
 @section('footer')

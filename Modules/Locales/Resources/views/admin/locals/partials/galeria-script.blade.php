@@ -1,5 +1,6 @@
 <script type="text/javascript">
-  var maxFiles = 6
+  var maxFiles = {{$f_max - count($local->getMedia('galeria'))}}
+  console.log(maxFiles);
   var filesCount = 0;
   var currentFiles = 0;
   Dropzone.autoDiscover = false;
@@ -8,7 +9,7 @@
     autoProcessQueue: false,
     maxFiles: maxFiles,
     dictMaxFilesExceeded: 'Excedió el límite de imágenes',
-    parallelUploads: 5
+    parallelUploads: 6
   });
 
   $('#uploadFilesButton').click(function(){
@@ -40,11 +41,22 @@
     myDropzone.on("error", function(file){
       $.toast({
         heading: 'Error',
-        text: 'Ocurrió un error al subir una o más imágenes, asegurese de estar conectado a internet y no haber sobrepasado el límite de imágenes, refresque la página y vuelva a intentarlo.',
+        text: 'Ocurrió un error al intentar subir una o más imágenes.',
         showHideTransition: 'slide',
         icon:'error',
         position: 'top-right'
       })
     })
+
+    $(".btn-container").hover( function(e){
+      if(e.type == "mouseenter"){
+        $(this).find('.btn-delete').css('display', 'block')
+        $(this).parent().find('.galeria-img-preview').addClass('hover-effect')
+      }else{
+        $(this).find('.btn-delete').css('display', 'none')
+        $(this).parent().find('.galeria-img-preview').removeClass('hover-effect')
+      }
+    })
+
   })
 </script>

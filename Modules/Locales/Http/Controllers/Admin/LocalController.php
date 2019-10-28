@@ -11,13 +11,14 @@ use Modules\Locales\Repositories\LocalRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Auth;
 use Log;
+use Spatie\MediaLibrary\Media;
 class LocalController extends AdminBaseController
 {
     /**
      * @var LocalRepository
      */
     private $local;
-
+    private $f_max = 6;
     public function __construct(LocalRepository $local)
     {
         parent::__construct();
@@ -75,6 +76,8 @@ class LocalController extends AdminBaseController
      */
     public function edit(Local $local, Request $request)
     {
+        //Obtener thumb
+        //dd($local->getMedia('galeria')->first()->getUrl('thumb'));
         $user = Auth::user();
         if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
           return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
@@ -134,7 +137,8 @@ class LocalController extends AdminBaseController
       if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
         return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
-      return view('locales::admin.locals.galeria', compact('local'));
+      $f_max = $this->f_max;
+      return view('locales::admin.locals.galeria', compact('local', 'f_max'));
     }
 
     public function store_galeria(Local $local, Request $request){
@@ -142,14 +146,24 @@ class LocalController extends AdminBaseController
       if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
         return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
-      if(count($local->getMedia('galeria')) > 6)
-        return response('error', 400);
+      if(count($local->getMedia('galeria')) >= $this->f_max)
+        return redirect()->back()->withError('Excedió el límite de imágenes');
+
       $local->addMedia($request->file('file'))->toMediaCollection('galeria');
 
       return response('ok', 200);
     }
 
-    public function delete_image(Local $local, Request $request){
+    public function delete_file(Local $local, Media $file){
+      $user = Auth::user();
+      if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+        return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
+      $ids = $local->getMedia('galeria')->pluck('id')->toArray();
+      if(!in_array($file->id, $ids))
+        return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
+      $file->delete();
+      return redirect()->route('admin.locales.local.galeria', $local->id)->withSuccess('Operación realizada éxitosamente.');
     }
 }

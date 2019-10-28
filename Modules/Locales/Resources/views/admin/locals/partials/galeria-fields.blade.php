@@ -9,8 +9,11 @@
     <div class="box-body no-padding">
       <div class="row">
         @foreach ($local->getMedia('galeria') as $file)
-          <div class="col-md-2">
+          <div class="col-md-2" style="margin-bottom: 25px;">
             <img src="{{$file->getUrl()}}" class="galeria-img-preview">
+            <div class="btn-container">
+              <button class="btn btn-default btn-delete" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.locales.local.delete_file', [$local->id, $file->id]) }}">Eliminar</button>
+            </div>
           </div>
         @endforeach
       </div>
@@ -39,7 +42,7 @@
           <ul>
             <li>Arrastre y suelte sus imágenes en el cuadro.</li>
             <li>También puede hacer click y seleccionar sus imágenes.</li>
-            <li>Pueden levantar hasta 6 imágenes en su galeria.</li>
+            <li>Pueden levantar hasta {{$f_max}} imágenes en su galeria.</li>
             <li>Cada imágen puede pesar hasta 2 MB.</li>
             <li>Una vez que ya tenga todas las imagenes seleccionadas en el cuadro presione el botón "Subir".</li>
             <li>Las imágenes se iran subiendo de a 1, no abandone la ventana hasta que termine de subir todas las imágenes.</li>
