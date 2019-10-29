@@ -1,4 +1,38 @@
 <script type="text/javascript">
+    @if(isset($local))
+      var horariosCounter = {{count($local->horarios)}};
+    @else
+      var horariosCounter = 1;
+    @endif
+    var horarioHtml =''
+    +'<div class="col-md-2" style="padding-right: 0;">'
+    +'  <select name="dia_inicio[]" class="form-control">'
+        @foreach ($dias as $key => $dia)
+          +'<option @if($key == 0) selected @endif value={{$dia}}>{{$dia}}</option>'
+        @endforeach
+    +  '</select>'
+    +'</div>'
+    +'<div class="col-md-1 no-padding center mid-text">a</div>'
+    +'<div class="col-md-2 no-padding center">'
+    +  '<select name="dia_fin[]" class="form-control">'
+        @foreach ($dias as $key => $dia)
+    +      '<option @if($key == 6) selected @endif value={{$dia}}>{{$dia}}</option>'
+        @endforeach
+    +  '</select>'
+    +'</div>'
+    +'<div class="col-md-1 no-padding center mid-text">de</div>'
+    +'<div class="col-md-2 no-padding center">'
+    +  '<input name="hora_inicio[]" type="text" id="hora_inicio" class="time form-control" value="18:00">'
+    +'</div>'
+    +'<div class="col-md-1 no-padding center mid-text">a</div>'
+    +'<div class="col-md-2 no-padding center">'
+    +  '<input name="hora_fin[]" type="text" id="hora_inicio" class="time form-control" value="23:30">'
+    +'</div>'
+    +'    <div class="col-md-1">'
+    +'      <button type="button" class="btn btn-danger btn-flat delete-button"><i class="fa fa-trash"></i></button>'
+    +'    </div>'
+    +'</div>'
+
     @php
         if(isset($local) && !$local->solo_delivery){
             $init_latitud = $local->latitud;
@@ -54,6 +88,30 @@
             else
               e.preventDefault();
         })
+
+        /*----------Horarios----------*/
+        $('.time').pickatime({
+          clear: '',
+          format: 'HH:i',
+          interval: 30
+        })
+
+        $("#add-horario-button").on('click', function(){
+          var html = ''
+          +'<div id="h-'+horariosCounter+'" class="row margin-bottom">' + horarioHtml
+          $("#horarios-container").append(html)
+          $('.time').pickatime({
+            clear: '',
+            format: 'HH:i',
+            interval: 30
+          })
+        })
+
+        $('#horarios-container').on('click','.delete-button',function(){
+          let dom = $(this).parent().parent();
+          $(dom).remove()
+        })
+        /*----------------------------*/
     });
 
     function mostrar_error(message){

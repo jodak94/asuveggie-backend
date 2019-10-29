@@ -11,6 +11,9 @@
     </ol>
     {!! Theme::style('vendor/croppie/croppie.css') !!}
     {!! Theme::style('vendor/leaflet/leaflet.css') !!}
+    {!! Theme::style('vendor/pickadate/css/classic.css') !!}
+    {!! Theme::style('vendor/pickadate/css/classic.date.css') !!}
+    {!! Theme::style('vendor/pickadate/css/classic.time.css') !!}
 @stop
 @push('css-stack')
   <style>
@@ -22,6 +25,15 @@
     #logo-container{
       margin-top: 15px;
       text-align: center;
+    }
+    .center{
+      text-align: center;
+    }
+    .mid-text{
+      margin-top: 5px;
+    }
+    .margin-bottom{
+      margin-bottom: 10px;
     }
   </style>
 @endpush
@@ -64,6 +76,9 @@
 @push('js-stack')
     {!! Theme::script('vendor/leaflet/leaflet.js') !!}
     {!! Theme::script('vendor/croppie/croppie.min.js') !!}
+    {!! Theme::script('vendor/pickadate/js/picker.js') !!}
+    {!! Theme::script('vendor/pickadate/js/picker.date.js') !!}
+    {!! Theme::script('vendor/pickadate/js/picker.time.js') !!}
     @include('locales::admin.locals.partials.script')
     <script>
         $( document ).ready(function() {

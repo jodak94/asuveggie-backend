@@ -8,11 +8,47 @@
         {!! Form::normalInput('telefono', 'Teléfono', $errors, null,  ['required' => 'true']) !!}
       </div>
       <div class="col-md-12">
-        <label>Descripción</label>
-        <textarea id="descripcion" required name="descripcion" placeholder="Descripción" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="descripcion" required name="descripcion" placeholder="Descripción" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
+        </div>
       </div>
       <div class="col-md-12">
         {!! Form::normalInput('direccion', 'Dirección', $errors, null,  ['required' => 'true']) !!}
+      </div>
+      <div class="col-md-12">
+        <label>Horarios</label>
+      </div>
+      <div class="col-md-12" id="horarios-container">
+        <div id="h-0" class="row margin-bottom">
+          <div class="col-md-2" style="padding-right: 0;">
+            <select name="dia_inicio[]" class="form-control">
+              @foreach ($dias as $key => $dia)
+                <option @if($key == 0) selected @endif value={{$dia}}>{{$dia}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-1 no-padding center mid-text">a</div>
+          <div class="col-md-2 no-padding center">
+            <select name="dia_fin[]" class="form-control">
+              @foreach ($dias as $key => $dia)
+                <option @if($key == 6) selected @endif value={{$dia}}>{{$dia}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-md-1 no-padding center mid-text">de</div>
+          <div class="col-md-2 no-padding center">
+            <input name="hora_inicio[]" type="text" id="hora_inicio" class="time form-control" value="18:00">
+          </div>
+          <div class="col-md-1 no-padding center mid-text">a</div>
+          <div class="col-md-2 no-padding center">
+            <input name="hora_fin[]" type="text" id="hora_inicio" class="time form-control" value="23:30">
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+      </div>
+      <div class="col-md-6" style="margin-top: 15px">
+        <button id="add-horario-button" class="btn btn-default btn-flat" type="button" title="Agregar Horario"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Horario</button>
       </div>
     </div>
     <div class="col-md-6">

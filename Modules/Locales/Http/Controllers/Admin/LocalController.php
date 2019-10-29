@@ -5,12 +5,14 @@ namespace Modules\Locales\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Locales\Entities\Local;
+use Modules\Locales\Entities\Horario;
 use Modules\Locales\Http\Requests\CreateLocalRequest;
 use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Auth;
 use Log;
+use DB;
 use Spatie\MediaLibrary\Media;
 class LocalController extends AdminBaseController
 {
@@ -45,7 +47,9 @@ class LocalController extends AdminBaseController
      */
     public function create()
     {
-        return view('locales::admin.locals.create');
+
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        return view('locales::admin.locals.create', compact('dias'));
     }
 
     /**
@@ -59,11 +63,29 @@ class LocalController extends AdminBaseController
         if((!isset($request->latitud) || !isset($request->longitud)))
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
-        $request['user_id'] = Auth::user()->id;
-        $request['estado'] = Local::$estados['pendiente'];
-        $local = $this->local->create($request->all());
+        try{
+          DB::beginTransaction();
+          $request['user_id'] = Auth::user()->id;
+          $request['estado'] = Local::$estados['pendiente'];
+          $local = $this->local->create($request->all());
 
-        $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+          foreach ($request->dia_inicio as $key => $value) {
+            $horario = new Horario();
+            $horario->dia_inicio = $value;
+            $horario->dia_fin = $request->dia_fin[$key];
+            $horario->hora_inicio = $request->hora_inicio[$key];
+            $horario->hora_fin = $request->hora_fin[$key];
+            $horario->local_id = $local->id;
+            $horario->save();
+          }
+
+          $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+
+          DB::commit();
+        }catch(\Exception $e){
+          return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
+        }
+
         return redirect()->route('dashboard.index')
             ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('locales::locals.title.locals')]));
     }
@@ -83,7 +105,8 @@ class LocalController extends AdminBaseController
           return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
         $estados = Local::$estados;
-        return view('locales::admin.locals.edit', compact('local', 'estados'));
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        return view('locales::admin.locals.edit', compact('local', 'estados', 'dias'));
     }
 
     /**
@@ -99,11 +122,31 @@ class LocalController extends AdminBaseController
         if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
           return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
-        $local = $this->local->update($local, $request->all());
+        try{
+          DB::beginTransaction();
+          $local = $this->local->update($local, $request->all());
 
-        if($request->editar_logo){
-          $local->getMedia('logo')->first()->delete();
-          $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+          foreach ($local->horarios as $h) {
+            $h->delete();
+          }
+          foreach ($request->dia_inicio as $key => $value) {
+            $horario = new Horario();
+            $horario->dia_inicio = $value;
+            $horario->dia_fin = $request->dia_fin[$key];
+            $horario->hora_inicio = $request->hora_inicio[$key];
+            $horario->hora_fin = $request->hora_fin[$key];
+            $horario->local_id = $local->id;
+            $horario->save();
+          }
+
+          if($request->editar_logo){
+            $local->getMedia('logo')->first()->delete();
+            $local->addMediaFromBase64($request->logo)->toMediaCollection('logo');
+          }
+
+        DB::commit();
+        }catch(\Exception $e){
+          return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
         }
 
         return redirect()->route('dashboard.index')
@@ -128,6 +171,7 @@ class LocalController extends AdminBaseController
           $local->estado = 'eliminado';
           $local->save();
         }
+
         return redirect()->route('dashboard.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('locales::locals.title.locals')]));
     }

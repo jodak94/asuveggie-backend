@@ -11,10 +11,13 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Local extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
-    // public $registerMediaConversionsUsingModelInstance = true;
+
     protected $table = 'locales__locals';
     protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado'];
 
+    public function horarios(){
+      return $this->hasMany('Modules\Locales\Entities\Horario');
+    }
 
     public static $estados = [
       'pendiente' => 'Pendiente',
