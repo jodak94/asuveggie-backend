@@ -55,12 +55,25 @@
               <div class="box box-primary">
                   <div class="box-header">
                     @if(count($user->locales()->where('estado', '!=', 'eliminado')->get()))
-                      <h3 class="box-title">
-                          Mis locales
-                      </h3>
-                      <a href="{{route('admin.locales.local.create')}}">
-                        <button class="btn btn-primary btn-flat pull-right">Crear Nuevo Local</button>
-                      </a>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <h3 class="box-title">
+                            Mis locales
+                          </h3>
+                        </div>
+                        @if(count($user->locales()->where('estado', 'verificado')->get()))
+                          <div class="col-md-2">
+                            <a href="{{route('admin.locales.local.crear_publicacion')}}" style="margin-right: 8px;">
+                              <button class="btn btn-primary btn-flat pull-right">Nueva Publicación</button>
+                            </a>
+                          </div>
+                        @endif
+                        <div class="col-md-2">
+                          <a href="{{route('admin.locales.local.create')}}">
+                            <button class="btn btn-primary btn-flat">Crear Nuevo Local</button>
+                          </a>
+                        </div>
+                      </div>
                     @endif
                   </div>
                   <div class="box-body">

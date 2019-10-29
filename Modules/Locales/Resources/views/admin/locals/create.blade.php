@@ -6,7 +6,6 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li><a href="{{ route('admin.locales.local.index') }}">{{ trans('locales::locals.title.locals') }}</a></li>
         <li class="active">{{ trans('locales::locals.title.create local') }}</li>
     </ol>
      {!! Theme::style('vendor/croppie/croppie.css') !!}

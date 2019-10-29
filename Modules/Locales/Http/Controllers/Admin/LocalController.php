@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Locales\Entities\Local;
 use Modules\Locales\Entities\Horario;
+use Modules\Locales\Entities\Publicacion;
 use Modules\Locales\Http\Requests\CreateLocalRequest;
 use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
@@ -209,5 +210,44 @@ class LocalController extends AdminBaseController
 
       $file->delete();
       return redirect()->route('admin.locales.local.galeria', $local->id)->withSuccess('Operación realizada éxitosamente.');
+    }
+
+    public function crear_publicacion(){
+      $user = Auth::user();
+      if($user->hasRoleSlug('admin'))
+        $locales = ['Todos'];
+      else
+        $locales = $user->locales()->where('estado', 'verificado')->pluck('nombre', 'id')->toArray();
+
+      return view('locales::admin.locals.crear_publicacion', compact('locales'));
+    }
+
+    public function store_publicacion(Request $request){
+      try{
+        DB::beginTransaction();
+        $local = Local::find($request->local_id);
+        $user = Auth::user();
+        if($local->user_id != $user->id)
+          return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
+
+        $pub = new Publicacion();
+        if($user->hasRoleSlug('admin'))
+          $pub->global = true;
+        else{
+          $pub->global = false;
+          $pub->local_id = $request->local_id;
+        }
+
+        $pub->titulo = $request->titulo;
+        $pub->texto = $request->texto;
+        $pub->estado = 'publicado';
+        $pub->save();
+        $pub->addMediaFromBase64($request->logo)->toMediaCollection('img');
+        DB::commit();
+      }catch(\Exception $e){
+        return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
+      }
+      return redirect()->route('dashboard.index')
+          ->withSuccess('Operación realizada exitosamente');
     }
 }

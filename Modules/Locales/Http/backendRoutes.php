@@ -51,4 +51,12 @@ $router->group(['prefix' =>'/locales'], function (Router $router) {
         'as' => 'admin.locales.local.delete_file',
         'uses' => 'LocalController@delete_file',
     ]);
+    $router->get('locals/crear-publicacion', [
+        'as' => 'admin.locales.local.crear_publicacion',
+        'uses' => 'LocalController@crear_publicacion',
+    ]);
+    $router->post('locals/store-publicacion', [
+        'as' => 'admin.locales.local.store_publicacion',
+        'uses' => 'LocalController@store_publicacion',
+    ]);
 });

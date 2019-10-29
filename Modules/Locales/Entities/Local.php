@@ -19,6 +19,11 @@ class Local extends Model implements HasMediaConversions
       return $this->hasMany('Modules\Locales\Entities\Horario');
     }
 
+    public function publicaciones(){
+      return $this->hasMany('Modules\Locales\Entities\Publicacion');
+    }
+
+
     public static $estados = [
       'pendiente' => 'Pendiente',
       'verificado' => 'Verificado',
