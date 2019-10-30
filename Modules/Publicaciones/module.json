@@ -1,0 +1,18 @@
+{
+    "name": "Publicaciones",
+    "alias": "publicaciones",
+    "description": "",
+    "keywords": [],
+    "version": "1.0.0",
+	"active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Publicaciones\\Providers\\PublicacionesServiceProvider",
+        "Modules\\Publicaciones\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        
+    ],
+    "requires": []
+}

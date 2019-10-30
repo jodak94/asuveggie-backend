@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePublicacionesTable extends Migration
+class CreatePublicacionesPublicacionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +12,8 @@ class CreatePublicacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('publicaciones', function (Blueprint $table) {
+        Schema::create('publicaciones__publicacions', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('titulo');
             $table->string('texto', 800);
@@ -32,6 +32,6 @@ class CreatePublicacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('publicaciones');
+        Schema::dropIfExists('publicaciones__publicacions');
     }
 }
