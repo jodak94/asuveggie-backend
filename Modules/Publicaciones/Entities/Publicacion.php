@@ -16,6 +16,11 @@ class Publicacion extends Model implements HasMediaConversions
     protected $fillable = ['titulo', 'texto', 'global', 'estado', 'local_id'];
     protected $appends = ['created_at_format', 'local_format'];
 
+    public static $estados = [
+      'Publicado' => 'Publicado',
+      'Rechazado' => 'Rechazado'
+    ];
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')

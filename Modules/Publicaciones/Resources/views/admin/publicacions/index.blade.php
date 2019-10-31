@@ -55,6 +55,7 @@
                               <th>Título</th>
                               <th>Fecha</th>
                               <th>Local</th>
+                              <th>Estado</th>
                               <th>Acciones</th>
                           </tr>
                           </thead>
@@ -65,6 +66,7 @@
                             <th>Título</th>
                             <th>Fecha</th>
                             <th>Local</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                           </tfoot>
                       </table>

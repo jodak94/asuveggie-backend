@@ -11,15 +11,30 @@
           mostrar_error("La imagen es obligatoria")
           ok = false;
         }
-        if(ok)
+        if(ok){
           $('#imagen').croppie('result', { type: 'base64' }).then(function(base){
             $("#imagen-img").val(base)
           })
-        else
+        }else
           e.preventDefault();
     })
 
   });
+
+  @if(isset($publicacion))
+    $( document ).ready(function() {
+      $("#edit-imagen-button").on('click', function(){
+        imagen = $('#imagen').croppie({
+          viewport: { width: 300, height: 300 },
+          boundary: { width: 400, height: 400 },
+        });
+        $("#editar_imagen").val(1);
+        $("#input-file-container").css('display', 'block');
+
+      })
+    })
+  @endif
+
   function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

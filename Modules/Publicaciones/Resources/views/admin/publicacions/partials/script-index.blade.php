@@ -40,6 +40,7 @@
         { data: 'titulo', name: 'paciente_nombre' },
         { data: 'created_at_format', name: 'created_at_format' },
         { data: 'local_format', name: 'local_format' },
+        { data: 'estado', name: 'estado' },
         { data: 'acciones', name: 'acciones' },
       ],
       columnDefs: [

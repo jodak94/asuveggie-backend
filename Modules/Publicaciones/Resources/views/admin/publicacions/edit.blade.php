@@ -10,9 +10,31 @@
         <li class="active">{{ trans('publicaciones::publicacions.title.edit publicacion') }}</li>
     </ol>
 @stop
-
+@push('css-stack')
+  {!! Theme::style('vendor/croppie/croppie.css') !!}
+  <style>
+    .imagen{
+      margin: auto;
+      max-width: 350;
+      max-height: 350;
+    }
+    #imagen-container{
+      margin-top: 15px;
+      text-align: center;
+    }
+    .center{
+      text-align: center;
+    }
+    .mid-text{
+      margin-top: 5px;
+    }
+    .margin-bottom{
+      margin-bottom: 10px;
+    }
+  </style>
+@endpush
 @section('content')
-    {!! Form::open(['route' => ['admin.publicaciones.publicacion.update', $publicacion->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.publicaciones.publicacion.update', $publicacion->id], 'method' => 'put', 'id' => 'form']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
@@ -48,6 +70,8 @@
 @stop
 
 @push('js-stack')
+  {!! Theme::script('vendor/croppie/croppie.min.js') !!}
+  @include('publicaciones::admin.publicacions.partials.script')
     <script type="text/javascript">
         $( document ).ready(function() {
             $(document).keypressAction({

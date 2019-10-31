@@ -67,8 +67,10 @@ class PublicacionController extends AdminBaseController
     public function query_index_ajax($re){
        $query = Publicacion::select();
        $user = Auth::user();
-       if(!$user->hasRoleSlug('admin'))
+       if(!$user->hasRoleSlug('admin')){
          $query->whereIn('local_id', $user->locales->pluck('id')->toArray());
+         $query->where('estado', 'publicado');
+       }
 
        if(isset($re->local) && trim($re->local) != '')
          $query->whereHas('local', function($q) use ($re){
@@ -149,7 +151,19 @@ class PublicacionController extends AdminBaseController
      */
     public function edit(Publicacion $publicacion)
     {
-        return view('publicaciones::admin.publicacions.edit', compact('publicacion'));
+        $user = Auth::user();
+        $locales = $user->locales()->where('estado', 'verificado')->pluck('id')->toArray();
+        if(!in_array($publicacion->local_id, $locales) && !$user->hasRoleSlug('admin'))
+          return redirect()->route('admin.publicaciones.publicacion.index')->withError('No tiene permiso para realizar la acción');
+
+        if($user->hasRoleSlug('admin'))
+          $locales = ['Todos'];
+        else
+          $locales = $user->locales()->where('estado', 'verificado')->pluck('nombre', 'id')->toArray();
+
+        $estados = Publicacion::$estados;
+
+        return view('publicaciones::admin.publicacions.edit', compact('publicacion', 'locales', 'estados'));
     }
 
     /**
@@ -161,7 +175,27 @@ class PublicacionController extends AdminBaseController
      */
     public function update(Publicacion $publicacion, UpdatePublicacionRequest $request)
     {
-        $this->publicacion->update($publicacion, $request->all());
+        $user = Auth::user();
+        $locales = $user->locales()->where('estado', 'verificado')->pluck('id')->toArray();
+        if(!in_array($publicacion->local_id, $locales) && !$user->hasRoleSlug('admin'))
+          return redirect()->route('admin.publicaciones.publicacion.index')->withError('No tiene permiso para realizar la acción');
+
+        try{
+          DB::beginTransaction();
+          if($user->hasRoleSlug('admin'))
+            unset($request['local_id']);
+
+          $this->publicacion->update($publicacion, $request->all());
+
+          if($request->editar_imagen){
+            $publicacion->getMedia('img')->first()->delete();
+            $publicacion->addMediaFromBase64($request->imagen)->toMediaCollection('img');
+          }
+
+          DB::commit();
+        }catch(\Exception $e){
+          return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
+        }
 
         return redirect()->route('admin.publicaciones.publicacion.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('publicaciones::publicacions.title.publicacions')]));
