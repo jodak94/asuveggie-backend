@@ -1,0 +1,18 @@
+{
+    "name": "Publicidades",
+    "alias": "publicidades",
+    "description": "",
+    "keywords": [],
+    "version": "1.0.0",
+	"active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Publicidades\\Providers\\PublicidadesServiceProvider",
+        "Modules\\Publicidades\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        
+    ],
+    "requires": []
+}
