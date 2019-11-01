@@ -13,7 +13,7 @@ class Local extends Model implements HasMediaConversions
     use HasMediaTrait;
 
     protected $table = 'locales__locals';
-    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado'];
+    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado', 'destacado'];
 
     public function horarios(){
       return $this->hasMany('Modules\Locales\Entities\Horario');

@@ -43,6 +43,7 @@
                                 <th>Teléfono</th>
                                 <th>Logo</th>
                                 <th>Estado</th>
+                                <th>Destacado</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
@@ -67,6 +68,9 @@
                                   {{ $local->estado }}
                                 </td>
                                 <td>
+                                  @if($local->destacado) Sí @else No @endif
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
                                         <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.locales.local.destroy', [$local->id]) }}"><i class="fa fa-trash"></i></button>
@@ -82,6 +86,7 @@
                                 <th>Teléfono</th>
                                 <th>Logo</th>
                                 <th>Estado</th>
+                                <th>Destacado</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </tfoot>

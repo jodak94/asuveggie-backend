@@ -129,15 +129,16 @@ class LocalController extends AdminBaseController
           foreach ($local->horarios as $h) {
             $h->delete();
           }
-          foreach ($request->dia_inicio as $key => $value) {
-            $horario = new Horario();
-            $horario->dia_inicio = $value;
-            $horario->dia_fin = $request->dia_fin[$key];
-            $horario->hora_inicio = $request->hora_inicio[$key];
-            $horario->hora_fin = $request->hora_fin[$key];
-            $horario->local_id = $local->id;
-            $horario->save();
-          }
+          if(isset($request->dia_inicio) && count($request->dia_inicio))
+            foreach ($request->dia_inicio as $key => $value) {
+              $horario = new Horario();
+              $horario->dia_inicio = $value;
+              $horario->dia_fin = $request->dia_fin[$key];
+              $horario->hora_inicio = $request->hora_inicio[$key];
+              $horario->hora_fin = $request->hora_fin[$key];
+              $horario->local_id = $local->id;
+              $horario->save();
+            }
 
           if($request->editar_logo){
             $local->getMedia('logo')->first()->delete();

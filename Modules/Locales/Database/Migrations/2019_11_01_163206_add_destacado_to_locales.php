@@ -13,8 +13,8 @@ class AddDestacadoToLocales extends Migration
      */
     public function up()
     {
-        Schema::table('', function (Blueprint $table) {
-
+        Schema::table('locales__locals', function (Blueprint $table) {
+          $table->boolean('destacado')->default(false);
         });
     }
 
@@ -25,8 +25,8 @@ class AddDestacadoToLocales extends Migration
      */
     public function down()
     {
-        Schema::table('', function (Blueprint $table) {
-
+        Schema::table('locales__locals', function (Blueprint $table) {
+          $table->dropColumn('destacado');
         });
     }
 }

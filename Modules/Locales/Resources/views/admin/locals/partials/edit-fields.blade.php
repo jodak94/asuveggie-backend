@@ -58,6 +58,9 @@
         <div class="col-md-12">
           {!! Form:: normalSelect('estado', 'Estado', $errors, $estados, $local) !!}
         </div>
+        <div class="col-md-12">
+          {!! Form:: normalCheckbox('destacado', 'Destacado', $errors) !!}
+        </div>
       @endif
     </div>
     <div class="col-md-6">
