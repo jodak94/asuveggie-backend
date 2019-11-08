@@ -14,7 +14,7 @@ class Local extends Model implements HasMediaConversions
 
     protected $table = 'locales__locals';
     protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado', 'destacado', 'ciudad_id'];
-    protected $appends = ['logo'];
+    protected $appends = ['logo', 'ciudad'];
 
     public function horarios(){
       return $this->hasMany('Modules\Locales\Entities\Horario');
@@ -51,5 +51,9 @@ class Local extends Model implements HasMediaConversions
         return $media->getFullUrl();
       else
         return '';
+    }
+
+    public function getCiudadAttribute(){
+      return $this->ciudad()->first()->nombre;
     }
 }
