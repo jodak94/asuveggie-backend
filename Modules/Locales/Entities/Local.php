@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-
+use Log;
 class Local extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
 
     protected $table = 'locales__locals';
-    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado', 'destacado'];
+    protected $fillable = ['nombre', 'latitud', 'longitud', 'descripcion', 'direccion', 'telefono', 'user_id', 'estado', 'destacado', 'ciudad_id'];
+    protected $appends = ['logo'];
 
     public function horarios(){
       return $this->hasMany('Modules\Locales\Entities\Horario');
@@ -21,6 +22,10 @@ class Local extends Model implements HasMediaConversions
 
     public function publicaciones(){
       return $this->hasMany('Modules\Locales\Entities\Publicacion');
+    }
+
+    public function ciudad(){
+      return $this->belongsTo('Modules\Ciudades\Entities\Ciudad');
     }
 
 
@@ -31,11 +36,20 @@ class Local extends Model implements HasMediaConversions
       'inactivo' => 'Inactivo'
     ];
 
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')
               ->width(350)
               ->height(248)
               ->sharpen(10);
+    }
+
+    public function getLogoAttribute(){
+      $media = $this->getMedia('logo')->first();
+      if(isset($media))
+        return $media->getFullUrl();
+      else
+        return '';
     }
 }

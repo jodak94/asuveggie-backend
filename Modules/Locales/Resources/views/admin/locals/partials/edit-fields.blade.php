@@ -15,6 +15,13 @@
         {!! Form::normalInput('direccion', 'Dirección', $errors, $local) !!}
       </div>
       <div class="col-md-12">
+        <label for="paciente_id">Ciudad</label>
+        <div class="form-group ">
+          <input placeholder="Ciudad" type="text" id="buscar-ciudad" class="form-control" value="{{$local->ciudad->nombre}}">
+          <input type="hidden" name="ciudad_id" id="ciudad_id" value="{{$local->ciudad->id}}">
+        </div>
+      </div>
+      <div class="col-md-12">
         <label>Horarios</label>
       </div>
       <div class="col-md-12" id="horarios-container">

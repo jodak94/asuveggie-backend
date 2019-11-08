@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Locales\Providers;
+namespace Modules\Ciudades\Providers;
 
 use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
 
@@ -10,7 +10,7 @@ class RouteServiceProvider extends CoreRoutingServiceProvider
      * The root namespace to assume when generating URLs to actions.
      * @var string
      */
-    protected $namespace = 'Modules\Locales\Http\Controllers';
+    protected $namespace = 'Modules\Ciudades\Http\Controllers';
 
     /**
      * @return string
@@ -33,6 +33,6 @@ class RouteServiceProvider extends CoreRoutingServiceProvider
      */
     protected function getApiRoute()
     {
-        return __DIR__ . '/../Http/apiRoutes.php';
+        return false;
     }
 }

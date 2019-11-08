@@ -89,6 +89,13 @@
               e.preventDefault();
         })
 
+        $("#buscar-ciudad").autocomplete({
+          source: '{{route('admin.ciudades.ciudad.search_ajax')}}',
+          select: function( event, ui){
+            $("#ciudad_id").val(ui.item.id)
+          }
+        })
+
         /*----------Horarios----------*/
         $('.time').pickatime({
           clear: '',

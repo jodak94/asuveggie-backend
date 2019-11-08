@@ -72,6 +72,7 @@
                                   <th>Nombre</th>
                                   <th>Teléfono</th>
                                   <th>Logo</th>
+                                  <th>Ciudad</th>
                                   <th>Estado</th>
                                   <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                               </tr>
@@ -93,6 +94,9 @@
                                   <td>
                                     <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
                                   </td>
+                                  <td>
+                                    {{ $local->ciudad->nombre }}
+                                  </td>
                                   <td class="capitalize">
                                     {{ $local->estado }}
                                   </td>
@@ -112,6 +116,7 @@
                                   <th>Nombre</th>
                                   <th>Teléfono</th>
                                   <th>Logo</th>
+                                  <th>Ciudad</th>
                                   <th>Estado</th>
                                   <th>{{ trans('core::core.table.actions') }}</th>
                               </tr>

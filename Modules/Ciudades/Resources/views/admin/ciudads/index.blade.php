@@ -2,31 +2,21 @@
 
 @section('content-header')
     <h1>
-        {{ trans('locales::locals.title.locals') }}
+        {{ trans('ciudades::ciudads.title.ciudads') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('locales::locals.title.locals') }}</li>
+        <li class="active">{{ trans('ciudades::ciudads.title.ciudads') }}</li>
     </ol>
 @stop
-@push('css-stack')
-  <style>
-    .logo{
-      width: 50px;
-      height: auto;
-    }
-    .capitalize{
-      text-transform:capitalize
-    }
-  </style>
-@endpush
+
 @section('content')
     <div class="row">
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.locales.local.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('locales::locals.button.create local') }}
+                    <a href="{{ route('admin.ciudades.ciudad.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('ciudades::ciudads.button.create ciudad') }}
                     </a>
                 </div>
             </div>
@@ -40,44 +30,22 @@
                             <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Logo</th>
-                                <th>Ciudad</th>
-                                <th>Estado</th>
-                                <th>Destacado</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if (isset($locals)): ?>
-                            <?php foreach ($locals as $local): ?>
+                            <?php if (isset($ciudads)): ?>
+                            <?php foreach ($ciudads as $ciudad): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.locales.local.edit', [$local->id]) }}">
-                                        {{ $local->nombre }}
+                                    <a href="{{ route('admin.ciudades.ciudad.edit', [$ciudad->id]) }}">
+                                        {{ $ciudad->nombre }}
                                     </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.locales.local.edit', [$local->id]) }}">
-                                        {{ $local->telefono }}
-                                    </a>
-                                </td>
-                                <td>
-                                  <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
-                                </td>
-                                <td class="capitalize">
-                                  {{ $local->ciudad->nombre }}
-                                </td>
-                                <td class="capitalize">
-                                  {{ $local->estado }}
-                                </td>
-                                <td>
-                                  @if($local->destacado) Sí @else No @endif
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.locales.local.destroy', [$local->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.ciudades.ciudad.edit', [$ciudad->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.ciudades.ciudad.destroy', [$ciudad->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -87,11 +55,6 @@
                             <tfoot>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Logo</th>
-                                <th>Ciudad</th>
-                                <th>Estado</th>
-                                <th>Destacado</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </tfoot>
@@ -112,7 +75,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('locales::locals.title.create local') }}</dd>
+        <dd>{{ trans('ciudades::ciudads.title.create ciudad') }}</dd>
     </dl>
 @stop
 
@@ -121,7 +84,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.locales.local.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.ciudades.ciudad.create') ?>" }
                 ]
             });
         });
