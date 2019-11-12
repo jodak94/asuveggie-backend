@@ -4,6 +4,7 @@
     <h1>
         Galería
     </h1>
+    {!! Theme::style('vendor/croppie/croppie.css') !!}
     {!! Theme::style('vendor/dropzone/dropzone.min.css') !!}
 @stop
 @push('css-stack')
@@ -75,6 +76,7 @@
     </div>
     {!! Form::close() !!}
     @include('core::partials.delete-modal')
+    @include('locales::admin.locals.partials.galeria-modal')
 @stop
 
 @section('footer')
@@ -88,6 +90,7 @@
 @stop
 
 @push('js-stack')
+    {!! Theme::script('vendor/croppie/croppie.min.js') !!}
     {!! Theme::script('vendor/dropzone/dropzone.min.js') !!}
     @include('locales::admin.locals.partials.galeria-script')
 @endpush

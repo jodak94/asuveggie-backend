@@ -95,7 +95,9 @@
                                     <img src="{{$local->getMedia('logo')->first()->getUrl()}}" class="logo">
                                   </td>
                                   <td>
-                                    {{ $local->ciudad->nombre }}
+                                    @if(isset($local->ciudad))
+                                      {{ $local->ciudad->nombre }}
+                                    @endif
                                   </td>
                                   <td class="capitalize">
                                     {{ $local->estado }}

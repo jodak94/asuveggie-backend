@@ -82,7 +82,7 @@
               ok = false;
             }
             if(ok)
-              $('#logo').croppie('result', { circle: true, type: 'base64' }).then(function(base){
+              $('#logo').croppie('result', {type: 'base64' }).then(function(base){
                 $("#logo-img").val(base)
               })
             else
@@ -135,7 +135,7 @@
       $( document ).ready(function() {
         $("#edit-logo-button").on('click', function(){
           logo = $('#logo').croppie({
-            viewport: { width: 200, height: 200, type: 'circle' },
+            viewport: { width: 200, height: 200 },
             boundary: { width: 300, height: 300 },
             result: { circle: false, type: 'canvas' }
           });
@@ -155,7 +155,7 @@
 
                 $("#logo-container").css('display', 'block')
                 logo = $('#logo').croppie({
-                  viewport: { width: 200, height: 200, type: 'circle' },
+                  viewport: { width: 200, height: 200 },
                   boundary: { width: 300, height: 300 },
                 });
             }

@@ -47,6 +47,10 @@ $router->group(['prefix' =>'/locales'], function (Router $router) {
         'as' => 'admin.locales.local.store_galeria',
         'uses' => 'LocalController@store_galeria',
     ]);
+    $router->post('locals/{local}/store-galeria-ajax', [
+        'as' => 'admin.locales.local.store_galeria_ajax',
+        'uses' => 'LocalController@store_galeria_ajax',
+    ]);
     $router->delete('locals/{local}/{file}/galeria', [
         'as' => 'admin.locales.local.delete_file',
         'uses' => 'LocalController@delete_file',

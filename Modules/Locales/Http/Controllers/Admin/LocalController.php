@@ -63,6 +63,8 @@ class LocalController extends AdminBaseController
         if((!isset($request->latitud) || !isset($request->longitud)))
           return redirect()->back()->withInput()->withError('Debe seleccionar una ubicación');
 
+        if((!isset($request->ciudad_id)))
+          return redirect()->back()->withInput()->withError('Debe seleccionar una ciudad');
         try{
           DB::beginTransaction();
           $request['user_id'] = Auth::user()->id;
@@ -178,6 +180,7 @@ class LocalController extends AdminBaseController
     }
 
     public function galeria(Local $local){
+      // dd($galeria)
       $user = Auth::user();
       if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
         return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
@@ -197,6 +200,21 @@ class LocalController extends AdminBaseController
       $local->addMedia($request->file('file'))->toMediaCollection('galeria');
 
       return response('ok', 200);
+    }
+
+    public function store_galeria_ajax(Local $local, Request $request){
+      $user = Auth::user();
+      if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
+        return response()->json(['error' => true, 'message' => 'No tiene permiso para realizar la acción']);
+
+      if(count($local->getMedia('galeria')) >= $this->f_max)
+        return response()->json(['error' => true, 'message' => 'Excedió el límite de imágenes']);
+
+      $local->addMediaFromBase64($request->file)->toMediaCollection('galeria');
+      $file_id = $local->getMedia('galeria')->last();
+      $delete_route = route('admin.locales.local.delete_file', [$local->id, $file_id]);
+
+      return response()->json(['error' => false, 'message' => 'La galería se actualizo correctamente', 'delete_route' => $delete_route]);
     }
 
     public function delete_file(Local $local, Media $file){

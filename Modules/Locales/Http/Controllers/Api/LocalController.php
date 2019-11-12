@@ -19,6 +19,6 @@ class LocalController
     public function index(Request $request){
       $locales = Local::where('estado', 'verificado')->get();
 
-      return response()->json(['locales' => $locales]);
+      return response()->json(['error' => false, 'locales' => $locales]);
     }
 }
