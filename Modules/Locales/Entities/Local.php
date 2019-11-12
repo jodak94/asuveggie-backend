@@ -56,4 +56,14 @@ class Local extends Model implements HasMediaConversions
     public function getNombreCiudadAttribute(){
       return $this->ciudad()->first()->nombre;
     }
+
+    public function getGaleriaAttribute(){
+      $galeria = $this->getMedia('galeria');
+      $array = [];
+      foreach ($galeria as $file) {
+        array_push($array, $file->getFullUrl());
+      }
+
+      return $array;
+    }
 }

@@ -180,7 +180,6 @@ class LocalController extends AdminBaseController
     }
 
     public function galeria(Local $local){
-      // dd($galeria)
       $user = Auth::user();
       if($local->user_id != $user->id && !$user->hasRoleSlug('admin'))
         return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');

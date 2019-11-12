@@ -98,8 +98,8 @@
               $('#img').attr('src', e.target.result);
               $("#img-container").css('display', 'block')
               imagen = $('#img').croppie({
-                viewport: { width: 300, height: 200 },
-                boundary: { width: 400, height: 300 },
+                viewport: { width: 380, height: 285 },
+                boundary: { width: 480, height: 360 },
               });
           }
           reader.readAsDataURL(input.files[0]);
