@@ -63,7 +63,7 @@ class Local extends Model implements HasMediaConversions
       foreach ($galeria as $file) {
         array_push($array, $file->getFullUrl());
       }
-
+      shuffle($array);
       return $array;
     }
 }
