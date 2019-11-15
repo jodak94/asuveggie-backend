@@ -8,4 +8,9 @@ $router->group(['prefix' =>'/locales', 'middleware' => ['api', 'cors']], functio
         'as' => 'admin.locales.local.index',
         'uses' => 'LocalController@index',
     ]);
+
+    $router->get('/detail', [
+        'as' => 'admin.locales.local.detail',
+        'uses' => 'LocalController@detail',
+    ]);
 });

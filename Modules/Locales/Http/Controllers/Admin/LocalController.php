@@ -48,7 +48,7 @@ class LocalController extends AdminBaseController
     public function create()
     {
 
-        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábados', 'Domingos'];
         return view('locales::admin.locals.create', compact('dias'));
     }
 
@@ -107,7 +107,7 @@ class LocalController extends AdminBaseController
           return redirect()->route('dashboard.index')->withError('No tiene permiso para realizar la acción');
 
         $estados = Local::$estados;
-        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        $dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábados', 'Domingos'];
         return view('locales::admin.locals.edit', compact('local', 'estados', 'dias'));
     }
 
