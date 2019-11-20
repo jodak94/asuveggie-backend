@@ -37,7 +37,6 @@
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
       },
       columns:[
-        { data: 'titulo', name: 'paciente_nombre' },
         { data: 'created_at_format', name: 'created_at_format' },
         { data: 'local_format', name: 'local_format' },
         { data: 'estado', name: 'estado' },

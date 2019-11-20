@@ -85,6 +85,7 @@ class LocalController extends AdminBaseController
 
           DB::commit();
         }catch(\Exception $e){
+          Log::info($e);
           return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
         }
 
@@ -149,6 +150,7 @@ class LocalController extends AdminBaseController
 
         DB::commit();
         }catch(\Exception $e){
+          Log::info($e);
           return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
         }
 

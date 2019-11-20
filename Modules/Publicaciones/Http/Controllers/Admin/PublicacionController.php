@@ -15,6 +15,7 @@ use DB;
 use Spatie\MediaLibrary\Media;
 use Modules\Locales\Entities\Local;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 class PublicacionController extends AdminBaseController
 {
     /**
@@ -57,6 +58,16 @@ class PublicacionController extends AdminBaseController
                 </button>
               </div>';
             return $html;
+          })
+          ->addColumn('created_at_format', function( $pub ){
+            $date = Carbon::parse($pub->created_at);
+            return $date->format('d/m/Y');
+          })
+          ->addColumn('local_format', function( $pub ){
+            return $pub->local->nombre;
+          })
+          ->editColumn('estado', function( $pub ){
+            return ucfirst($pub->estado);
           })
           ->rawColumns(['acciones'])
           ->make(true);
@@ -136,6 +147,7 @@ class PublicacionController extends AdminBaseController
           $pub->addMediaFromBase64($request->logo)->toMediaCollection('img');
           DB::commit();
         }catch(\Exception $e){
+          Log::info($e);
           return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
         }
 
@@ -194,6 +206,7 @@ class PublicacionController extends AdminBaseController
 
           DB::commit();
         }catch(\Exception $e){
+          Log::info($e);
           return redirect()->back()->withInput()->withError('Ocurrió un error inesperado');
         }
 

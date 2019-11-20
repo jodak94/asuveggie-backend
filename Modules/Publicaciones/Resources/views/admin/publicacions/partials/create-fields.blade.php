@@ -1,13 +1,13 @@
 <div class="box-body">
   <div class="row">
     <div class="col-md-6">
-      <div class="col-md-12">
+      {{-- <div class="col-md-12">
         {!! Form::normalInput('titulo', 'Titulo', $errors, null,  ['required' => 'true']) !!}
-      </div>
+      </div> --}}
       <div class="col-md-12">
         <div class="form-group">
           <label>Publicación</label>
-          <textarea id="texto" required name="texto" placeholder="Publicación" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
+          <textarea id="texto" name="texto" placeholder="Publicación" style="resize:none;width:100%;" class="form-control" rows="5"></textarea>
         </div>
       </div>
       <div class="col-md-12">

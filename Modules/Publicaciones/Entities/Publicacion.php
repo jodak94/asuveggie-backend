@@ -14,7 +14,7 @@ class Publicacion extends Model implements HasMediaConversions
 
     protected $table = 'publicaciones__publicacions';
     protected $fillable = ['titulo', 'texto', 'global', 'estado', 'local_id'];
-    protected $appends = ['created_at_format', 'local_format'];
+    // protected $appends = ['created_at_format', 'local_format'];
 
     public static $estados = [
       'Publicado' => 'Publicado',

@@ -52,7 +52,6 @@
                       <table class="data-table table table-bordered table-hover">
                           <thead>
                           <tr>
-                              <th>Título</th>
                               <th>Fecha</th>
                               <th>Local</th>
                               <th>Estado</th>
@@ -63,7 +62,6 @@
 
                           </tbody>
                           <tfoot>
-                            <th>Título</th>
                             <th>Fecha</th>
                             <th>Local</th>
                             <th>Estado</th>
