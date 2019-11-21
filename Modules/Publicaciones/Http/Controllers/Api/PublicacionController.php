@@ -19,7 +19,10 @@ class PublicacionController
         $q->select('id', 'latitud', 'longitud', 'nombre', 'ciudad_id')->with(['ciudad' => function($q_c){
           $q_c->select('id', 'nombre');
         }]);
-      }])->get();
+      }])
+      ->skip($request->skip)
+      ->take($request->take)
+      ->get();
       foreach ($publicaciones as $pub) {
         $pub->img = $pub->getMedia('img')->first()->getFullUrl();
       }

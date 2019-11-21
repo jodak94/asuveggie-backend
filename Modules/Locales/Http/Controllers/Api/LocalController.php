@@ -16,12 +16,24 @@ use DB;
 use Spatie\MediaLibrary\Media;
 class LocalController
 {
+
+    private $columns = [
+      'l.nombre',
+      'l.latitud',
+      'l.longitud',
+      'l.descripcion',
+      'l.direccion',
+      'l.telefono',
+      'l.created_at',
+      'l.updated_at'
+    ];
+
     public function index(Request $request){
-      // $locales = Local::where('estado', 'verificado')->get();
-      // return env('APP_URL');
+      Log::info($this->columns[$request->column]);
       $query = "SELECT l.id, l.nombre, l.latitud, l.longitud, c.nombre AS nombre_ciudad, l.direccion, l.telefono, CONCAT('".env('APP_URL')."', '/storage/', m.id, '/', m.file_name) as logo
                 FROM asuveggie.locales__locals l JOIN ciudades__ciudads c ON l.ciudad_id = c.id
-                JOIN media m ON m.model_id = l.id WHERE m.collection_name = 'logo' AND l.estado = 'verificado'";
+                JOIN media m ON m.model_id = l.id WHERE m.collection_name = 'logo' AND l.estado = 'verificado'
+                ORDER BY ".$this->columns[$request->column]." ".$request->dir." LIMIT ".$request->take." OFFSET ".$request->skip."";
 
       $locales = DB::select($query);
       return response()->json(['error' => false, 'locales' => $locales]);
