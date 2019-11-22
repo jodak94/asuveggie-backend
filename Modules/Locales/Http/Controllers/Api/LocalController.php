@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Locales\Entities\Local;
 use Modules\Locales\Entities\Horario;
+use Modules\Locales\Entities\Contacto;
 use Modules\Locales\Http\Requests\CreateLocalRequest;
 use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
@@ -58,5 +59,29 @@ class LocalController
                 FROM asuveggie.horarios WHERE local_id = ". $request->local_id;
       $local->horarios = DB::select($query);
       return response()->json(['error' => false, 'local' => $local]);
+    }
+
+    public function contacto(Request $request){
+      $request->nombre = 'Jose';
+      $request->telefono = '0972195087';
+      $request->message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+      return response()->json(400);
+      try{
+        DB::beginTransaction();
+        $contacto = new Contacto();
+        $contacto->nombre = $request->nombre;
+        if(isset($request->telefono))
+          $contacto->telefono = $request->telefono;
+        if(isset($request->email))
+          $contacto->email = $request->email;
+        $contacto->message = $request->message;
+        $contacto->leido = false;
+        $contacto->save();
+        // DB::commit();
+        return response()->json(200);
+      }catch(\Exception $e){
+        Log::info($e);
+        return response()->json(400);
+      }
     }
 }

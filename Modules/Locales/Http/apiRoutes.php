@@ -5,12 +5,16 @@ use Illuminate\Routing\Router;
 
 $router->group(['prefix' =>'/locales', 'middleware' => ['api', 'cors']], function (Router $router) {
     $router->get('', [
-        'as' => 'admin.locales.local.index',
         'uses' => 'LocalController@index',
     ]);
 
     $router->get('/detail', [
-        'as' => 'admin.locales.local.detail',
         'uses' => 'LocalController@detail',
+    ]);
+});
+
+$router->group(['prefix' =>'/contacto', 'middleware' => ['api', 'cors']], function (Router $router) {
+    $router->post('', [
+        'uses' => 'LocalController@contacto',
     ]);
 });

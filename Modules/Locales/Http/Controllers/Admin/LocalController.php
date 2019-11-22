@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Locales\Entities\Local;
 use Modules\Locales\Entities\Horario;
+use Modules\Locales\Entities\Contacto;
 use Modules\Locales\Http\Requests\CreateLocalRequest;
 use Modules\Locales\Http\Requests\UpdateLocalRequest;
 use Modules\Locales\Repositories\LocalRepository;
@@ -239,5 +240,10 @@ class LocalController extends AdminBaseController
         $locales = $user->locales()->where('estado', 'verificado')->pluck('nombre', 'id')->toArray();
 
       return view('locales::admin.locals.crear_publicacion', compact('locales'));
+    }
+
+    public function contacto_leido(Contacto $contacto){
+      $contacto->leido = true;
+      return response()->json(['error' => false])
     }
 }
