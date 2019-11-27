@@ -55,8 +55,15 @@ $router->group(['prefix' =>'/locales'], function (Router $router) {
         'as' => 'admin.locales.local.delete_file',
         'uses' => 'LocalController@delete_file',
     ]);
-    $router->post('contacto/{contacto}/leido', [
-        'as' => 'admin.contactos.contacto.leido',
-        'uses' => 'LocalController@contacto_leido',
-    ]);
+
 });
+
+$router->post('contacto/leido', [
+    'as' => 'admin.contactos.contacto.leido',
+    'uses' => 'LocalController@contacto_leido',
+]);
+
+$router->get('contacto/index-ajax', [
+    'as' => 'admin.contacto.contacto.index_ajax',
+    'uses' => 'LocalController@contacto_index_ajax'
+]);

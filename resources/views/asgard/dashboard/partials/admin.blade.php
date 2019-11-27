@@ -11,6 +11,7 @@
         <table class="data-table table table-bordered table-hover">
             <thead>
             <tr>
+                <th width="5%" style="text-align:center"></th>
                 <th>Nombre</th>
                 <th>Teléfono</th>
                 <th>Email</th>
@@ -18,24 +19,11 @@
             </tr>
             </thead>
             <tbody>
-            <?php if (isset($contactos)): ?>
-            <?php foreach ($contactos as $c): ?>
-            <tr>
-                <td>{{ $c->nombre }}</td>
-                <td>{{ $c->telefono }}</td>
-                <td>{{ $c->email }}</td>
-                <td>
-                    <div class="btn-group">
-                        {{-- <a href="{{ route('admin.locales.local.edit', [$local->id]) }}" class="btn btn-default btn-flat" title="Editar"><i class="fa fa-pencil"></i></a> --}}
-                        <button class="btn btn-primary btn-flat" onclick="openModal({{$c->id}}, {{$c->message}})" data-toggle="modal" id="" >Ver Mensaje</button>
-                    </div>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php endif; ?>
+
             </tbody>
             <tfoot>
             <tr>
+              <th></th>
               <th>Nombre</th>
               <th>Teléfono</th>
               <th>Email</th>
@@ -46,12 +34,3 @@
         </table>
     </div>
 </div>
-@push('js-stack')
-  <script>
-    console.log("script")
-    function openModal(contacto_id, message){
-      console.log(contacto_id)
-      console.log(message)
-    }
-  </script>
-@endpush

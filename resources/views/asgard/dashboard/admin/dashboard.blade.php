@@ -45,6 +45,13 @@
   .capitalize{
     text-transform:capitalize
   }
+  .green-dot {
+    height: 10px;
+    width: 10px;
+    background-color: #42b72a;
+    border-radius: 50%;
+    display: inline-block;
+  }
   </style>
 @stop
 
@@ -65,3 +72,8 @@
     @include('core::partials.delete-modal')
     @include('dashboard::partials.modal-contacto')
 @stop
+@if($user->hasRoleSlug('admin'))
+  @push('js-stack')
+    @include('dashboard::partials.script')
+  @endpush
+@endif

@@ -15,6 +15,7 @@ use Auth;
 use Log;
 use DB;
 use Spatie\MediaLibrary\Media;
+use Yajra\DataTables\Facades\DataTables;
 class LocalController extends AdminBaseController
 {
     /**
@@ -242,8 +243,50 @@ class LocalController extends AdminBaseController
       return view('locales::admin.locals.crear_publicacion', compact('locales'));
     }
 
-    public function contacto_leido(Contacto $contacto){
+    public function contacto_leido(Request $request){
+      $contacto = Contacto::find($request->id);
+      if(!isset($contacto))
+        return response()->json(['error' => true]);
+
       $contacto->leido = true;
-      return response()->json(['error' => false])
+      $contacto->save();
+      return response()->json(['error' => false]);
     }
+
+    public function contacto_index_ajax(Request $re){
+      $user = Auth::user();
+      if(!$user->hasRoleSlug('admin')){
+        return response()->json(['error' => true]);
+      }
+      $query = $this->query_index_ajax($re);
+      $object = Datatables::of($query)
+          ->addColumn('leido_format', function( $c ){
+            if(!$c->leido)
+              return '<span class="green-dot"></span>';
+            else
+              return '';
+          })
+          ->addColumn('acciones', function( $c ){
+            $html = '
+            <div class="btn-group">
+                <button class="btn btn-primary btn-flat openModal" onclick="openModal('. $c->id . ', \'' . $c->message . '\', '. $c->leido .')" >Ver Mensaje</button>
+            </div>';
+            return $html;
+          })
+          ->rawColumns(['acciones', 'leido_format'])
+          ->make(true);
+      $data = $object->getData(true);
+      return response()->json( $data );
+    }
+
+    public function query_index_ajax($re){
+       $query = Contacto::select();
+       $user = Auth::user();
+
+       return $query;
+   }
+
+   private function fechaFormat($date){
+       return date("Y-m-d", strtotime( str_replace('/', '-', $date)));
+   }
 }
