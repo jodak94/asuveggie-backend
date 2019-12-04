@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Mensaje</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute; top: 15px; right: 15px;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

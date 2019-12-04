@@ -1,5 +1,11 @@
 <script type="text/javascript">
   $( document ).ready(function(){
+    var importante_filtro = 0;
+    $('#importante_filtro').iCheck({
+        checkboxClass: 'icheckbox_flat-blue',
+        radioClass: 'iradio_flat-blue'
+    });
+
     var table  = $('.data-table').DataTable({
       dom: "<'row'<'col-xs-12'<'col-xs-6'l><'col-xs-6'p>>r>"+
         "<'row'<'col-xs-12't>>"+
@@ -19,9 +25,8 @@
         url: '{!! route('admin.contacto.contacto.index_ajax') !!}',
         type: "GET",
         data: function (d){
-            d.local = $("#local").val();
-            d.fecha_desde = $("#fecha_desde").val();
-            d.fecha_hasta = $("#fecha_hasta").val();
+            d.importante = importante_filtro;
+            d.tipo = $("#tipo_filtro").val();
         },
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
       },
@@ -30,6 +35,9 @@
         { data: 'nombre', name: 'nombre' },
         { data: 'telefono', name: 'telefono' },
         { data: 'email', name: 'email' },
+        { data: 'created_at_format', name: 'created_at_format' },
+        { data: 'tipo_format', name: 'tipo_format' },
+        { data: 'importante_format', name: 'importante_format' },
         { data: 'acciones', name: 'acciones' },
       ],
       columnDefs: [
@@ -54,18 +62,62 @@
       },
     });
     //filtros
-    $("#local").keyup(function(){
+    $("#tipo_filtro").change(function(){
         table.ajax.reload();
     });
-    $(".fecha").change(function(){
+    $("#importante_filtro").on('ifChecked', function(){
+        importante_filtro = 1;
         table.ajax.reload();
     });
+    $("#importante_filtro").on('ifUnchecked', function(){
+        importante_filtro = 0;
+        table.ajax.reload();
+    });
+
+    $(".data-table").on('change', '.tipo', function(){
+      let id = $(this).attr('cid');
+      let tipo = $(this).val();
+      $.ajax({
+        url: '{!! route('admin.contacto.contacto.change_contacto_tipo') !!}',
+        type: 'PUT',
+        data: {
+          'id': id,
+          'tipo': tipo,
+          "_token": "{{ csrf_token() }}",
+        },
+        success: function(data){
+
+        },
+        error: function(error){
+          console.log(error)
+        }
+      })
+    })
+
+    $(".data-table").on('change', '.importante', function(){
+      let id = $(this).attr('cid');
+      $.ajax({
+        url: '{!! route('admin.contacto.contacto.change_contacto_importante') !!}',
+        type: 'PUT',
+        data: {
+          'id': id,
+          "_token": "{{ csrf_token() }}",
+        },
+        success: function(data){
+
+        },
+        error: function(error){
+          console.log(error)
+        }
+      })
+    })
   })
 
-  function openModal(id, message, leido){
-    if(!leido)
+  function openModal(id, message, leido, dom){
+    if(!leido){
       marcarLeido(id, message)
-    else{
+      $($(dom).closest('tr').children()[0]).html('')
+    }else{
       showModal(message)
     }
 

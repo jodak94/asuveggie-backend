@@ -16,6 +16,7 @@ use Log;
 use DB;
 use Spatie\MediaLibrary\Media;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 class LocalController extends AdminBaseController
 {
     /**
@@ -266,14 +267,31 @@ class LocalController extends AdminBaseController
             else
               return '';
           })
+          ->addColumn('importante_format', function( $c ){
+            return '<input style="margin:auto; display: flex;" type="checkbox" cid="'.$c->id.'" class="importante"' . ($c->importante ? 'checked' : '') .'>';
+          })
+          ->addColumn('tipo_format', function( $c ){
+            $html = '
+            <select name="cars" class="tipo form-control" cid="'.$c->id.'">
+              <option value="--" ' . ($c->tipo == '' ? 'selected' : '') .'>--</option>
+              <option value="Sugerencia" ' . ($c->tipo == 'Sugerencia' ? 'selected' : '') .'>Sugerencia</option>
+              <option value="Contacto" ' .($c->tipo == 'Contacto' ? 'selected' : '') .'>Contacto</option>
+              <option value="Reporte" ' . ($c->tipo == 'Reporte' ? 'selected' : '') .'>Reporte</option>
+            </select>
+            ';
+            return $html;
+          })
+          ->addColumn('created_at_format', function( $c ){
+            return Carbon::parse($c->created_at)->format('d/m/Y');
+          })
           ->addColumn('acciones', function( $c ){
             $html = '
             <div class="btn-group">
-                <button class="btn btn-primary btn-flat openModal" onclick="openModal('. $c->id . ', \'' . $c->message . '\', '. $c->leido .')" >Ver Mensaje</button>
+                <button class="btn btn-primary btn-flat openModal" onclick="openModal('. $c->id . ', \'' . $c->message . '\', '. $c->leido .', this)" >Ver Mensaje</button>
             </div>';
             return $html;
           })
-          ->rawColumns(['acciones', 'leido_format'])
+          ->rawColumns(['acciones', 'leido_format', 'importante_format', 'tipo_format'])
           ->make(true);
       $data = $object->getData(true);
       return response()->json( $data );
@@ -281,6 +299,12 @@ class LocalController extends AdminBaseController
 
     public function query_index_ajax($re){
        $query = Contacto::select();
+       if(isset($re->importante) && $re->importante)
+         $query->where('importante', true);
+
+       if(isset($re->tipo) && trim($re->tipo) != 'todos')
+          $query->where('tipo', $re->tipo);
+
        $user = Auth::user();
 
        return $query;
@@ -288,5 +312,21 @@ class LocalController extends AdminBaseController
 
    private function fechaFormat($date){
        return date("Y-m-d", strtotime( str_replace('/', '-', $date)));
+   }
+
+   public function change_contacto_importante(Request $request){
+     $contacto = Contacto::find($request->id);
+     $contacto->importante = !$contacto->importante;
+     $contacto->save();
+
+     return response()->json(['status' => 200]);
+   }
+
+   public function change_contacto_tipo(Request $request){
+     $contacto = Contacto::find($request->id);
+     $contacto->tipo = $request->tipo;
+     $contacto->save();
+
+     return response()->json(['status' => 200]);
    }
 }

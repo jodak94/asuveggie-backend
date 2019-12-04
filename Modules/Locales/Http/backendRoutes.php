@@ -67,3 +67,13 @@ $router->get('contacto/index-ajax', [
     'as' => 'admin.contacto.contacto.index_ajax',
     'uses' => 'LocalController@contacto_index_ajax'
 ]);
+
+$router->put('contacto/change-contacto-importante', [
+    'as' => 'admin.contacto.contacto.change_contacto_importante',
+    'uses' => 'LocalController@change_contacto_importante'
+]);
+
+$router->put('contacto/change-contacto-tipo', [
+    'as' => 'admin.contacto.contacto.change_contacto_tipo',
+    'uses' => 'LocalController@change_contacto_tipo'
+]);
