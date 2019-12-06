@@ -12,6 +12,7 @@ use Auth;
 use Log;
 use DB;
 use Spatie\MediaLibrary\Media;
+use Carbon\Carbon;
 class PublicacionController
 {
     public function index(Request $request){
@@ -25,6 +26,7 @@ class PublicacionController
       ->get();
       foreach ($publicaciones as $pub) {
         $pub->img = $pub->getMedia('img')->first()->getFullUrl();
+        $pub->fecha = Carbon::parse($pub->cretad_at)->format('d/m/Y');
       }
       return response()->json(['error' => false, 'publicaciones' => $publicaciones]);
     }

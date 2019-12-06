@@ -30,11 +30,16 @@ class LocalController
     ];
 
     public function index(Request $request){
-      Log::info($this->columns[$request->column]);
       $query = "SELECT l.id, l.nombre, l.latitud, l.longitud, c.nombre AS nombre_ciudad, l.direccion, l.telefono, CONCAT('".env('APP_URL')."', '/storage/', m.id, '/', m.file_name) as logo
                 FROM asuveggie.locales__locals l JOIN ciudades__ciudads c ON l.ciudad_id = c.id
-                JOIN media m ON m.model_id = l.id WHERE m.collection_name = 'logo' AND l.estado = 'verificado'
-                ORDER BY ".$this->columns[$request->column]." ".$request->dir." LIMIT ".$request->take." OFFSET ".$request->skip."";
+                JOIN media m ON m.model_id = l.id WHERE m.collection_name = 'logo' AND l.estado = 'verificado'";
+
+      if(isset($request->ciudad_id) && $request->ciudad_id){
+        $query .= " AND c.id = " . $request->ciudad_id;
+      }
+      $query .= " ORDER BY ".$this->columns[$request->column]." ".$request->dir." LIMIT ".$request->take." OFFSET ".$request->skip."";
+
+      Log::info($query);
 
       $locales = DB::select($query);
       return response()->json(['error' => false, 'locales' => $locales]);
